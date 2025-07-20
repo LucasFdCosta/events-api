@@ -1,12 +1,18 @@
-import { Form, useNavigate, useNavigation } from 'react-router-dom';
+import {
+  Form,
+  useActionData,
+  useNavigate,
+  useNavigation,
+} from 'react-router-dom';
 
 import classes from './EventForm.module.css';
 
 export function EventForm({ method, event }) {
+  const data = useActionData();
   const navigate = useNavigate();
   const navigation = useNavigation();
 
-  const isSubmitting = navigation.state === "submitting";
+  const isSubmitting = navigation.state === 'submitting';
 
   function cancelHandler() {
     navigate('..');
@@ -14,13 +20,21 @@ export function EventForm({ method, event }) {
 
   return (
     <Form method="POST" className={classes.form}>
+      {data && data.errors && (
+        <ul>
+          {Object.values(data.errors).map(error => (
+            <li key={error} className={classes.error}>
+              {error}
+            </li>
+          ))}
+        </ul>
+      )}
       <p>
         <label htmlFor="title">Title</label>
         <input
           id="title"
           type="text"
           name="title"
-          required
           defaultValue={event ? event.title : ''}
         />
       </p>
@@ -30,7 +44,6 @@ export function EventForm({ method, event }) {
           id="image"
           type="url"
           name="image"
-          required
           defaultValue={event ? event.image : ''}
         />
       </p>
@@ -40,7 +53,6 @@ export function EventForm({ method, event }) {
           id="date"
           type="date"
           name="date"
-          required
           defaultValue={event ? event.date : ''}
         />
       </p>
@@ -50,7 +62,6 @@ export function EventForm({ method, event }) {
           id="description"
           name="description"
           rows="5"
-          required
           defaultValue={event ? event.description : ''}
         />
       </p>
@@ -58,7 +69,9 @@ export function EventForm({ method, event }) {
         <button type="button" onClick={cancelHandler}>
           Cancel
         </button>
-        <button disabled={isSubmitting}>{isSubmitting ? "Submitting..." : "Save"}</button>
+        <button disabled={isSubmitting}>
+          {isSubmitting ? 'Submitting...' : 'Save'}
+        </button>
       </div>
     </Form>
   );

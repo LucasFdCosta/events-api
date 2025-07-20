@@ -23,6 +23,10 @@ export async function action({ request }) {
     },
   });
 
+  if (response.status === 422) {
+    return response;
+  }
+
   if (!response.ok) {
     throw new Response(JSON.stringify({ message: 'Could not create event.' }), {
       status: 500,
