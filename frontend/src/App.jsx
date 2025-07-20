@@ -3,14 +3,18 @@ import { action as manipulateEventActionFn } from './components/EventForm';
 import { EditEventPage } from './pages/EditEventPage';
 import { ErrorPage } from './pages/ErrorPage';
 import {
-  action as deleteEventDetailActionFn,
+  action as deleteEventActionFn,
   EventsDetailPage,
-  loader as getEventDetailLoaderFn,
+  loader as eventDetailLoaderFn,
 } from './pages/EventDetailPage';
 import { EventsPage, loader as eventsLoaderFn } from './pages/EventsPage';
 import { EventsRootLayout } from './pages/EventsRootLayout';
 import { HomePage } from './pages/HomePage';
 import { NewEventPage } from './pages/NewEventPage';
+import {
+  NewsletterPage,
+  action as newsletterActionFn,
+} from './pages/Newsletter';
 import { RootLayout } from './pages/RootLayout';
 
 const router = createBrowserRouter([
@@ -32,12 +36,12 @@ const router = createBrowserRouter([
           {
             path: ':eventId',
             id: 'event-detail',
-            loader: getEventDetailLoaderFn,
+            loader: eventDetailLoaderFn,
             children: [
               {
                 index: true,
                 element: <EventsDetailPage />,
-                action: deleteEventDetailActionFn,
+                action: deleteEventActionFn,
               },
               {
                 path: 'edit',
@@ -52,6 +56,11 @@ const router = createBrowserRouter([
             action: manipulateEventActionFn,
           },
         ],
+      },
+      {
+        path: 'newsletter',
+        element: <NewsletterPage />,
+        action: newsletterActionFn,
       },
     ],
   },
