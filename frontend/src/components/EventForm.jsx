@@ -1,5 +1,6 @@
 import {
   Form,
+  redirect,
   useActionData,
   useNavigate,
   useNavigation,
@@ -19,7 +20,7 @@ export function EventForm({ method, event }) {
   }
 
   return (
-    <Form method="POST" className={classes.form}>
+    <Form method={method} className={classes.form}>
       {data && data.errors && (
         <ul>
           {Object.values(data.errors).map(error => (
@@ -75,4 +76,45 @@ export function EventForm({ method, event }) {
       </div>
     </Form>
   );
+}
+
+export async function action({ request, params }) {
+  const method = request.method;
+
+  const formData = await request.formData();
+
+  const eventData = {
+    title: formData.get('title'),
+    image: formData.get('image'),
+    date: formData.get('date'),
+    description: formData.get('description'),
+  };
+
+  let url = 'http://localhost:8080/events';
+
+  if (method === 'PATCH') {
+    const eventId = params.eventId;
+    url = `${url}/${eventId}`;
+  }
+
+  const response = await fetch(url, {
+    method: method,
+    body: JSON.stringify(eventData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (response.status === 422) {
+    return response;
+  }
+
+  if (!response.ok) {
+    throw new Response(JSON.stringify({ message: 'Could not create event.' }), {
+      status: 500,
+      statusText: 'Could not create event.',
+    });
+  }
+
+  return redirect('/events');
 }
