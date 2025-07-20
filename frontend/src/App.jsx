@@ -8,7 +8,7 @@ import {
 import { EventsPage, loader as eventsLoaderFn } from './pages/EventsPage';
 import { EventsRootLayout } from './pages/EventsRootLayout';
 import { HomePage } from './pages/HomePage';
-import { NewEventPage } from './pages/NewEventPage';
+import { NewEventPage, action as newEventActionFn } from './pages/NewEventPage';
 import { RootLayout } from './pages/RootLayout';
 
 const router = createBrowserRouter([
@@ -34,16 +34,15 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <EventsDetailPage />
+                element: <EventsDetailPage />,
               },
               {
                 path: 'edit',
-                element: <EditEventPage />
+                element: <EditEventPage />,
               },
             ],
           },
-          { path: 'new', element: <NewEventPage /> },
-          { path: ':eventId/edit', element: <EditEventPage /> },
+          { path: 'new', element: <NewEventPage />, action: newEventActionFn },
         ],
       },
     ],
