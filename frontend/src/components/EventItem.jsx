@@ -1,6 +1,6 @@
 import classes from './EventItem.module.css';
 
-function EventItem({ event }) {
+export function EventItem({ event }) {
   function startDeleteHandler() {
     // ...
   }
@@ -18,5 +18,3 @@ function EventItem({ event }) {
     </article>
   );
 }
-
-export default EventItem;
