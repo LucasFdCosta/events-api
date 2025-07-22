@@ -9,7 +9,7 @@ Events API is a React application for creating, and managing events. It interact
 - [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
-- [Concepts](#Concepts)
+- [Concepts](#concepts)
 
 ## Prerequisites
 - [Node.js](https://nodejs.org/en/)
